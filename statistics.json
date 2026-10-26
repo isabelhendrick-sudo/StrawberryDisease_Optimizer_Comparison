@@ -1,0 +1,20 @@
+{
+  "source": "results.csv",
+  "method": "Functions holm and vs_leader from scripts/analyze_optimizers.py",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "friedman_statistic": 10.679999999999993,
+  "friedman_p": 0.0135882729582177,
+  "remaining_optimizers": [
+    "adam",
+    "adagrad",
+    "rmsprop"
+  ],
+  "validation_test_f1_correlation": 0.6087272164023415,
+  "note": "Recalculated from the existing small-CNN CSV during documentation preparation; no training was rerun."
+}
