@@ -1,0 +1,12 @@
+# Historical experiment versions were not provided.
+# Install a compatible torch/torchvision build for your hardware.
+torch
+torchvision
+numpy
+pandas
+Pillow
+ImageHash
+PyYAML
+scikit-learn
+scipy
+matplotlib
