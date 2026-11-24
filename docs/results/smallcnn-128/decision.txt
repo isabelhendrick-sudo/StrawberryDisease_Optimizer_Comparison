@@ -1,0 +1,9 @@
+OPTIMIZER COMPARISON: DECISION
+============================================================
+Seeds per optimizer: {'adagrad': 5, 'adam': 5, 'rmsprop': 5, 'sgd': 5}
+Friedman test across all optimizers (test macro-F1): chi2 = 10.68, p = 0.0136
+Criterion 1 (test macro-F1): leader Adam; not significantly worse: Adagrad, RMSprop
+Criterion 2 (epochs to target, among Adam, Adagrad, RMSprop): leader Adam; not significantly slower: Adagrad, RMSprop
+Criterion 3 (time to target, among Adam, Adagrad, RMSprop): leader Adam; not significantly slower: Adagrad, RMSprop
+
+NO SINGLE BEST OPTIMIZER: Adam, Adagrad, RMSprop were not distinguished by the tests; Adam has the highest mean macro-F1

@@ -1,0 +1,14 @@
+DROPS / COUNTS
+  scanned                    4898
+  bad_label_lines            0
+  no_selected_class          1828
+  duplicate_photos_removed   1823
+  box_too_small              55
+
+split            angular_leaf_spot             leaf_spot   powdery_mildew_leaf    photos
+train                          269                   968                  1131       872
+validation                      49                   210                   264       187
+test                            58                   205                   275       188
+TOTAL                          376                  1383                  1670
+
+Total crops: 3429   Unique photos: 1247
