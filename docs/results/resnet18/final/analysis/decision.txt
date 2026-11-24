@@ -1,0 +1,12 @@
+OPTIMIZER COMPARISON: DECISION
+============================================================
+Seeds per optimizer: {'adagrad': 5, 'adam': 5, 'rmsprop': 5, 'sgd': 5}
+Friedman test across all optimizers (test macro-F1): chi2 = 4.50, p = 0.2123
+Criterion 1 (test macro-F1): leader RMSprop; not significantly worse: SGD, Adagrad, Adam
+Criterion 2 (epochs to target, among RMSprop, SGD, Adagrad, Adam): leader RMSprop; not significantly slower: SGD, Adagrad, Adam
+Criterion 3 (time to target, among RMSprop, SGD, Adagrad, Adam): leader SGD; not significantly slower: none
+
+BEST OPTIMIZER: SGD  (test macro-F1 and epochs did not separate the optimizers, but significantly less training time to the target)
+
+Suggested results sentence:
+  SGD (lr = 0.01) was selected as the best optimizer: test macro-F1 and epochs did not separate the optimizers, but significantly less training time to the target (test macro-F1 0.986 �� 0.003, n = 5 seeds; paired t-tests, Holm-corrected).
