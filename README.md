@@ -6,7 +6,7 @@ How much does the choice of optimizer affect a strawberry leaf classifier? This 
 
 The inputs are cropped RGB images of individual strawberry leaves from three classes: angular leaf spot, leaf spot and powdery mildew. The primary experiment uses 224 × 224 inputs for both models.
 
-## Results
+## November results
 
 | Optimizer | Small CNN learning rate | Small CNN test macro-F1 | Epochs to validation F1 ≥ 0.85 | ResNet-18 learning rate | ResNet-18 test macro-F1 |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -15,13 +15,37 @@ The inputs are cropped RGB images of individual strawberry leaves from three cla
 | RMSprop | 0.003 | **0.896 ± 0.023** | 11.2 ± 1.8 | 0.0001 | 0.991 ± 0.004 |
 | Adam | 0.0003 | 0.891 ± 0.016 | 12.6 ± 3.3 | 0.0003 | 0.990 ± 0.003 |
 
-Values are means ± sample standard deviation over five seeds. The small-CNN test macro-F1 differences did not reach significance after Holm correction. Adagrad reached the validation target in significantly fewer epochs than the other optimizers (Holm-adjusted paired-test p ≤ 0.008), so it was selected by the study's decision rule. Angular leaf spot was the hardest class and accounted for much of SGD's lower mean score.
-
-The report gives mean wall-clock times to the small-CNN target of **362 s for Adagrad, 670 s for RMSprop, 673 s for Adam and 1,162 s for SGD**. The recorded SGD seed-0 time includes a laptop sleep interruption. The report replaces the affected epoch with that run's median epoch time for its timing summary. [The run CSV](docs/results/smallcnn-224/results.csv) preserves the recorded values. A separate training-step benchmark estimated about **830 CPU-seconds** for Adagrad to reach the target.
-
-ResNet-18 reached test macro-F1 of **0.986–0.991** across the four optimizers. All 20 ResNet-18 runs reached the validation target of 0.80 after one epoch. The model comparison combines a change in architecture and ImageNet pretraining. ResNet-18 used a GPU and a different convergence target, so the timing measurements apply to each experiment separately.
+Values are means ± sample standard deviation over five seeds. **Adagrad was selected for the 224 × 224 small CNN** because it reached the validation target in 5.8 epochs on average, significantly faster than each of the other optimizers (Holm-adjusted paired-test p ≤ 0.008). RMSprop had the highest mean test macro-F1 (0.896), and the test macro-F1 differences did not reach significance after Holm correction.
 
 ![Test macro-F1 by optimizer and model, and epochs to target for the 224px small CNN](docs/figures/optimizer_results_224.png)
+
+### Small-CNN results by disease
+
+| Optimizer | Angular leaf spot F1 | Leaf spot F1 | Powdery mildew F1 |
+| --- | ---: | ---: | ---: |
+| SGD | 0.713 | 0.899 | 0.971 |
+| Adagrad | 0.792 | 0.914 | 0.975 |
+| RMSprop | 0.792 | 0.918 | 0.977 |
+| Adam | 0.791 | 0.909 | 0.974 |
+
+Values are means over five seeds. Angular leaf spot was the hardest class. Its mean recall was 68.6% with SGD and 76.6–79.3% with the adaptive optimizers. The [224 × 224 run CSV](docs/results/smallcnn-224/results.csv) includes precision, recall and F1 for each class and seed.
+
+### Laptop training time
+
+| Optimizer | Mean wall-clock seconds to 0.85 | Estimated CPU-seconds to 0.85 |
+| --- | ---: | ---: |
+| SGD | 1,162 | 2,960 |
+| Adagrad | 362 | 832 |
+| RMSprop | 670 | 1,619 |
+| Adam | 673 | 1,865 |
+
+The wall-clock summary replaces one SGD seed-0 epoch interrupted by laptop sleep with that run's median epoch time. The run CSV preserves the recorded timing. The CPU estimates come from a separate 150-step benchmark on the same laptop, using median CPU time per step and mean epochs to target. Training steps took about 1.94–2.00 CPU-seconds across optimizers, so Adagrad saved time mainly by reaching the target in fewer epochs.
+
+### Model and input-size comparisons
+
+At 224 × 224, pretrained ResNet-18 achieved test macro-F1 of 0.986–0.991 and averaged **4.4 misclassified crops out of 538**, compared with **38.5** for the small CNN. Angular leaf spot F1 rose to 0.978–0.988. The comparison combines a deeper architecture with ImageNet pretraining. ResNet-18 ran on a GPU, and all 20 runs reached its validation target of 0.80 in one epoch. Timing comparisons apply within each experiment.
+
+In the [earlier 128 × 128 small-CNN experiment](docs/results/smallcnn-128/README.md), the average test macro-F1 across all optimizers was 0.886, compared with 0.885 at 224 × 224. A typical epoch took about 16 seconds at 128 × 128 and 51 seconds at 224 × 224. The optimizer ranking also changed between the two experiments.
 
 ## Dataset and experiment design
 
@@ -48,7 +72,7 @@ The [Strawberry Disease Detection Dataset on Roboflow Universe](https://universe
 | Earlier 128 × 128 small CNN | [Archived results and methodology](docs/results/smallcnn-128/README.md) · [Original small-CNN figures](docs/figures/smallcnn/) · [Earlier cross-model figures](docs/figures/comparison/) |
 | Preprocessing and experiments | [Python scripts](scripts/) · [Preprocessing counts](docs/data/preprocessing_summary.txt) · [Provenance and limitations](docs/PROVENANCE.md) |
 
-### Original ResNet-18 figures
+### ResNet-18 figures (224 × 224)
 
 ![Original ResNet-18 confusion matrices by optimizer](docs/figures/resnet18/Figure_4_confusion_matrices.png)
 
